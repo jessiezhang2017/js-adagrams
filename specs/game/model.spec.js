@@ -12,37 +12,37 @@ describe('Game Model', () => {
   };
 
   describe('constructor', () => {
-    xit('creates a new Model instance', () => {
+    it('creates a new Model instance', () => {
       const model = new Model(config);
 
       expect(model).toBeInstanceOf(Model);
     });
 
-    xit('requires a config parameter', () => {
+    it('requires a config parameter', () => {
       expect(() => {
         const model = new Model();
       }).toThrow(/config/);
     });
 
-    xit('initializes the round number to zero', () => {
+    it('initializes the round number to zero', () => {
       const model = new Model(config);
 
       expect(model.round).toBe(0);
     });
 
-    xit('initializes the current player to null', () => {
+    it('initializes the current player to null', () => {
       const model = new Model(config);
 
       expect(model.currentPlayer).toBe(null);
     });
 
-    xit('initializes the letter bank to null', () => {
+    it('initializes the letter bank to null', () => {
       const model = new Model(config);
 
       expect(model.letterBank).toBe(null);
     });
 
-    xit('initializes the plays history', () => {
+    it('initializes the plays history', () => {
       const model = new Model(config);
 
       expect(model.plays).toBeInstanceOf(Object);
@@ -55,13 +55,13 @@ describe('Game Model', () => {
   });
 
   describe('.currentPlayerName()', () => {
-    xit('is defined', () => {
+    it('is defined', () => {
       const model = new Model(config);
 
       expect(model.currentPlayerName).toBeDefined();
     });
 
-    xit('returns the name of the current player when game is on-going', () => {
+    it('returns the name of the current player when game is on-going', () => {
       const model = new Model(config);
 
       model.nextRound();
@@ -69,7 +69,7 @@ describe('Game Model', () => {
       expect(model.currentPlayerName()).toEqual(model.config.players[0]);
     });
 
-    xit('returns null when the game is not on-going', () => {
+    it('returns null when the game is not on-going', () => {
       const model = new Model(config);
 
       expect(model.currentPlayerName()).toBe(null);
@@ -77,13 +77,13 @@ describe('Game Model', () => {
   });
 
   describe('.nextRound', () => {
-    xit('is defined', () => {
+    it('is defined', () => {
       const model = new Model(config);
 
       expect(model.nextRound).toBeDefined();
     });
 
-    xit('increments the round number', () => {
+    it('increments the round number', () => {
       const model = new Model(config);
       const roundBefore = model.round;
 
@@ -92,7 +92,7 @@ describe('Game Model', () => {
       expect(model.round).toBe(roundBefore + 1);
     });
 
-    xit('initializes the current player number to first player', () => {
+    it('initializes the current player number to first player', () => {
       const model = new Model(config);
 
       model.nextRound();
@@ -100,7 +100,7 @@ describe('Game Model', () => {
       expect(model.currentPlayer).toBe(0);
     });
 
-    xit('initializes the round play history for first player', () => {
+    it('initializes the round play history for first player', () => {
       const model = new Model(config);
 
       model.nextRound();
@@ -113,7 +113,7 @@ describe('Game Model', () => {
       });
     });
 
-    xit('draws a new hand of letters', () => {
+    it('draws a new hand of letters', () => {
       const model = new Model(config);
 
       model.nextRound();
@@ -126,7 +126,7 @@ describe('Game Model', () => {
     });
 
     describe('returns game state', () => {
-      xit('gameOver', () => {
+      it('gameOver', () => {
         const model = new Model({ ...config, rounds: 1 });
 
         const gameState = model.nextRound();
@@ -138,7 +138,7 @@ describe('Game Model', () => {
         expect(gameOverState.gameOver).toBe(true);
       });
 
-      xit('winner', () => {
+      it('winner', () => {
         const model = new Model({ ...config, rounds : 2 });
 
         // Start game, no one has won yet
@@ -181,13 +181,13 @@ describe('Game Model', () => {
       return model;
     };
 
-    xit('is defined', () => {
+    it('is defined', () => {
       const model = getModel();
 
       expect(model.nextTurn).toBeDefined();
     });
 
-    xit('increments the current player index', () => {
+    it('increments the current player index', () => {
       const model = getModel();
       const origPlayer = model.currentPlayer;
 
@@ -199,7 +199,7 @@ describe('Game Model', () => {
     });
 
     describe('returns round state', () => {
-      xit('roundOver', () => {
+      it('roundOver', () => {
         const model = getModel();
 
         const roundState = model.nextTurn();
@@ -221,7 +221,7 @@ describe('Game Model', () => {
         expect(roundOverState.roundOver).toBe(true);
       });
 
-      xit('winner', () => {
+      it('winner', () => {
         const model = getModel();
 
         const roundState = model.nextTurn();
@@ -265,7 +265,7 @@ describe('Game Model', () => {
       return [...(model.plays[player][round - 1] || [])];
     };
 
-    xit('is defined', () => {
+    it('is defined', () => {
       const model = getModel();
 
       expect(model.playWord).toBeDefined();
@@ -276,7 +276,7 @@ describe('Game Model', () => {
         return model.letterBank.slice(0, 5).join('');
       };
 
-      xit('it returns the word score', () => {
+      it('it returns the word score', () => {
         const model = getModel();
         const word = getWord(model);
         const score = Adagrams.scoreWord(word);
@@ -284,7 +284,7 @@ describe('Game Model', () => {
         expect(model.playWord(word)).toBe(score);
       });
 
-      xit('adds word to plays history for current player', () => {
+      it('adds word to plays history for current player', () => {
         const model = getModel();
         const player = model.currentPlayerName();
         const origPlays = getPlays(model, player, model.round);
@@ -298,7 +298,7 @@ describe('Game Model', () => {
         expect(getPlays(model, player, model.round)).toEqual([...origPlays, word1, word2]);
       });
 
-      xit('validates word case-insensitively', () => {
+      it('validates word case-insensitively', () => {
         const model = getModel();
         const word = getWord(model);
         const score = Adagrams.scoreWord(word);
@@ -315,7 +315,7 @@ describe('Game Model', () => {
         }).length + 1);
       };
 
-      xit('it returns null', () => {
+      it('it returns null', () => {
         const model = getModel();
         const word = getWord(model);
 
@@ -324,7 +324,7 @@ describe('Game Model', () => {
         expect(model.playWord('')).toBe(null);
       });
 
-      xit('does not add word to history', () => {
+      it('does not add word to history', () => {
         const model = getModel();
         const word = getWord(model);
         const origPlays = {...model.plays};
